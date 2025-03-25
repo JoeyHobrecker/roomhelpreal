@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/roomhelpreal/static/css/main.b5032a86.css",
+    "main.js": "/roomhelpreal/static/js/main.48db1d26.js",
+    "static/js/453.68029c7f.chunk.js": "/roomhelpreal/static/js/453.68029c7f.chunk.js",
+    "index.html": "/roomhelpreal/index.html",
+    "main.b5032a86.css.map": "/roomhelpreal/static/css/main.b5032a86.css.map",
+    "main.48db1d26.js.map": "/roomhelpreal/static/js/main.48db1d26.js.map",
+    "453.68029c7f.chunk.js.map": "/roomhelpreal/static/js/453.68029c7f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b5032a86.css",
+    "static/js/main.48db1d26.js"
+  ]
+}
