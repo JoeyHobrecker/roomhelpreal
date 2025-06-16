@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creativity Spark</title>
+    
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --sapphire: #4F7FFF;
+            --lavender: #9E7BFF;
+            --mint: #5FF1C6;
+            --charcoal: #20232A;
+            --offwhite: #F9FAFB;
+
+            --primary-color: var(--charcoal);
+            --secondary-color: #2b2e36;
+            --accent-color: var(--sapphire);
+            --text-color: var(--offwhite);
+            --light-text: #dfe3e8;
+            --border-color: #3b4252;
+            --input-bg-color: #1a1d23;
+            --success-color: var(--mint);
+            --warning-color: var(--lavender);
+            --danger-color: #FF647C;
+            
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.2);
+            
+            --border-radius-md: 10px;
+            --border-radius-lg: 16px;
+
+            --transition-std: all 0.25s ease-in-out;
+
+            --sapphire-rgb: 79, 127, 255;
+            --charcoal-rgb: 32, 35, 42;
+        }
+
+        /* Base Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            color: var(--text-color); 
+            background-color: var(--primary-color); 
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        h1,h2,h3,h4 { font-family: 'Poppins', sans-serif; color: var(--offwhite); font-weight: 600; }
+        h1 { font-size: 2.5em; } h2 { font-size: 1.8em; } h3 { font-size: 1.5em; } h4 { font-size: 1.2em; }
+        button { font-family: inherit; cursor: pointer; border: none; }
+        textarea { font-family: inherit; font-size: inherit; }
+
+        .app-container { max-width: 900px; margin: 0 auto; padding: 25px; }
+
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes expandIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .spinner {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--mint);
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            animation: fadeIn 0.5s var(--transition-std);
+        }
+        .logo-wrapper { display: flex; align-items: center; gap: 12px; }
+        .logo-text { font-weight: 700; font-size: 28px; color: var(--offwhite); }
+
+        .action-btn {
+            background-color: var(--secondary-color);
+            color: var(--light-text);
+            border: 1px solid var(--border-color);
+            padding: 10px 18px;
+            border-radius: var(--border-radius-md);
+            transition: var(--transition-std);
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .action-btn:hover {
+            background-color: var(--accent-color);
+            color: var(--offwhite);
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        /* Main View - Selection Grid */
+        #selection-view {
+            text-align: center;
+        }
+        #selection-view h2 {
+            margin-bottom: 30px;
+            animation: slideInUp 0.5s ease;
+        }
+        .selection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            animation: fadeIn 0.5s ease 0.2s both;
+        }
+        .selection-card {
+            background-color: var(--secondary-color);
+            padding: 40px 20px;
+            border-radius: var(--border-radius-lg);
+            cursor: pointer;
+            transition: var(--transition-std);
+            border: 2px solid var(--border-color);
+        }
+        .selection-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            border-color: var(--accent-color);
+            box-shadow: var(--shadow-lg);
+        }
+        .selection-card i {
+            font-size: 3em;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+        .selection-card h3 {
+            font-size: 1.5em;
+        }
+
+        /* Activity View */
+        #activity-view {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .activity-card {
+            background-color: var(--secondary-color);
+            padding: 25px;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .prompt-container {
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        #prompt-display {
+            font-size: 1.4em;
+            font-family: 'Poppins', sans-serif;
+            color: var(--mint);
+            line-height: 1.4;
+        }
+        
+        .notes-container textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            border-radius: var(--border-radius-md);
+            background-color: var(--input-bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            font-size: 1em;
+            transition: var(--transition-std);
+            resize: vertical;
+        }
+        .notes-container textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(var(--sapphire-rgb), 0.2);
+        }
+
+        .activity-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .timer-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .timer-btn {
+            background-color: var(--input-bg-color);
+            color: var(--light-text);
+            padding: 8px 16px;
+            border-radius: var(--border-radius-md);
+            font-weight: 500;
+            transition: var(--transition-std);
+        }
+
+        .timer-btn.active, .timer-btn:hover {
+            background-color: var(--warning-color);
+            color: var(--primary-color);
+        }
+        
+        #timer-display {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--warning-color);
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .main-actions button {
+            background-color: var(--accent-color);
+            color: var(--offwhite);
+            padding: 10px 20px;
+            border-radius: var(--border-radius-md);
+            font-weight: 500;
+        }
+        .main-actions button.secondary {
+             background-color: var(--input-bg-color);
+             color: var(--light-text);
+             border: 1px solid var(--border-color);
+        }
+         .main-actions button:hover {
+            filter: brightness(1.15);
+         }
+
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(var(--charcoal-rgb), 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s 0.3s;
+        }
+        .modal.visible { display: flex; opacity: 1; visibility: visible; transition-delay: 0s; }
+        .modal-content {
+            background-color: var(--secondary-color);
+            width: 90%; max-width: 500px;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+            display: flex; flex-direction: column;
+            animation: expandIn 0.3s ease;
+        }
+        .modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .close-modal { font-size: 24px; color: var(--light-text); background: none; }
+        .close-modal:hover { color: var(--danger-color); transform: rotate(90deg); transition: transform 0.2s; }
+        .modal-body { padding: 25px; overflow-y: auto; }
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; margin-bottom: 10px; font-size: 1em; font-weight: 500; }
+        .form-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 30px; }
+        .submit-btn { padding: 10px 18px; border-radius: var(--border-radius-md); font-size: 0.95em; font-weight: 500; background-color: var(--accent-color); color: var(--offwhite); }
+        .submit-btn:hover { filter: brightness(1.15); }
+        input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 8px; background: var(--input-bg-color); border-radius: 5px; outline: none; transition: opacity .2s; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; background: var(--accent-color); cursor: pointer; border-radius: 50%; }
+        input[type="range"]::-moz-range-thumb { width: 20px; height: 20px; background: var(--accent-color); cursor: pointer; border-radius: 50%; }
+
+        /* Toast Notifications */
+        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 2000; display: flex; flex-direction: column; gap: 10px; }
+        .toast {
+            min-width: 280px; background-color: var(--secondary-color); color: var(--text-color);
+            padding: 15px 20px; border-radius: var(--border-radius-md); box-shadow: var(--shadow-lg);
+            display: flex; align-items: center; gap: 15px;
+            opacity: 0; transform: translateX(100%);
+            transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-left: 5px solid var(--accent-color);
+        }
+        .toast.show { opacity: 1; transform: translateX(0); }
+        .toast-icon { font-size: 1.3em; }
+        .toast.toast-success { border-left-color: var(--success-color); } .toast.toast-success .toast-icon { color: var(--success-color); }
+        .toast.toast-error { border-left-color: var(--danger-color); } .toast.toast-error .toast-icon { color: var(--danger-color); }
+
+        /* Utility */
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo-wrapper">
+                <i class="fas fa-lightbulb" style="font-size: 28px; color: var(--warning-color);"></i>
+                <span class="logo-text">Creativity Spark</span>
+            </div>
+            <button id="settings-btn" class="action-btn">
+                <i class="fas fa-cog"></i> Settings
+            </button>
+        </header>
+
+        <main>
+            <!-- View 1: Selection Grid -->
+            <div id="selection-view">
+                <h2>What would you like to create today?</h2>
+                <div class="selection-grid">
+                    <div class="selection-card" data-type="write">
+                        <i class="fas fa-feather-alt"></i>
+                        <h3>Write a Prompt</h3>
+                    </div>
+                    <div class="selection-card" data-type="invent">
+                        <i class="fas fa-flask"></i>
+                        <h3>Invent Something</h3>
+                    </div>
+                    <div class="selection-card" data-type="draw">
+                        <i class="fas fa-paint-brush"></i>
+                        <h3>Draw Something</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View 2: Activity Area -->
+            <div id="activity-view" class="hidden">
+                 <div class="activity-card">
+                    <div class="prompt-container">
+                        <div id="prompt-display">Generating your creative prompt...</div>
+                    </div>
+                    <div class="notes-container">
+                        <textarea id="notes-area" placeholder="Jot down your notes and ideas here..."></textarea>
+                    </div>
+                </div>
+
+                <div class="activity-card">
+                    <div class="activity-controls">
+                        <div class="timer-controls">
+                            <button class="timer-btn" data-time="5">5 min</button>
+                            <button class="timer-btn" data-time="15">15 min</button>
+                            <button class="timer-btn" data-time="30">30 min</button>
+                            <span id="timer-display">00:00</span>
+                        </div>
+                        <div class="main-actions">
+                            <button id="back-btn" class="secondary">Back to Menu</button>
+                            <button id="save-notes-btn">Save Notes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="creativity-slider">AI Creativity Level</label>
+                    <input type="range" id="creativity-slider" min="0.1" max="1.0" step="0.1" value="0.7">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.9em; margin-top: 5px;">
+                        <span>Precise</span>
+                        <span>Balanced</span>
+                        <span>Wildly Creative</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Data Management</label>
+                    <div class="form-actions" style="justify-content: flex-start;">
+                        <button id="backup-data-btn" class="submit-btn">
+                            <i class="fas fa-download"></i> Backup Data
+                        </button>
+                        <button id="restore-data-btn" class="submit-btn">
+                            <i class="fas fa-upload"></i> Restore Data
+                        </button>
+                        <input type="file" id="restore-file-input" accept="application/json" style="display: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // --- STATE MANAGEMENT ---
+        const appState = {
+            currentView: 'selection', // 'selection' or 'activity'
+            activityType: null, // 'write', 'invent', 'draw'
+            currentPrompt: '',
+            currentNotes: '',
+            settings: {
+                apiKey: "AIzaSyDuA44T84Jbdvj0xSJJfPS516N_lt4Shh0", // From FinaMind
+                model: "gemini-2.0-flash", // Switched to a standard, widely available model
+                temperature: 0.7
+            },
+            sessions: [] // To store past prompts and notes
+        };
+
+        // --- TIMER STATE ---
+        let timerInterval = null;
+        let timerSecondsRemaining = 0;
+        let activeTimerButton = null;
+
+        // --- DOM ELEMENTS ---
+        const elements = {
+            selectionView: document.getElementById('selection-view'),
+            activityView: document.getElementById('activity-view'),
+            selectionCards: document.querySelectorAll('.selection-card'),
+            promptDisplay: document.getElementById('prompt-display'),
+            notesArea: document.getElementById('notes-area'),
+            timerBtns: document.querySelectorAll('.timer-btn'),
+            timerDisplay: document.getElementById('timer-display'),
+            backBtn: document.getElementById('back-btn'),
+            saveNotesBtn: document.getElementById('save-notes-btn'),
+            settingsBtn: document.getElementById('settings-btn'),
+            settingsModal: document.getElementById('settings-modal'),
+            closeModalBtn: document.querySelector('.close-modal'),
+            creativitySlider: document.getElementById('creativity-slider'),
+            backupDataBtn: document.getElementById('backup-data-btn'),
+            restoreDataBtn: document.getElementById('restore-data-btn'),
+            restoreFileInput: document.getElementById('restore-file-input'),
+            toastContainer: document.getElementById('toast-container')
+        };
+
+        // --- CORE LOGIC ---
+
+        function init() {
+            loadState();
+            setupEventListeners();
+            render();
+            console.log("Creativity Spark Initialized");
+        }
+
+        function render() {
+            // Render view
+            if (appState.currentView === 'selection') {
+                elements.selectionView.classList.remove('hidden');
+                elements.activityView.classList.add('hidden');
+                stopTimer();
+            } else {
+                elements.selectionView.classList.add('hidden');
+                elements.activityView.classList.remove('hidden');
+                elements.promptDisplay.textContent = appState.currentPrompt;
+                elements.notesArea.value = appState.currentNotes;
+            }
+
+            // Render settings
+            elements.creativitySlider.value = appState.settings.temperature;
+        }
+
+        function switchView(view, type = null) {
+            appState.currentView = view;
+            if (view === 'activity') {
+                appState.activityType = type;
+                appState.currentNotes = ''; // Reset notes for new session
+                getAIPrompt(type);
+            }
+            render();
+        }
+
+        // --- AI COMMUNICATION ---
+
+        async function getAIPrompt(type) {
+            let userPrompt = '';
+            switch (type) {
+                case 'write':
+                    userPrompt = `You are a creative writing muse. Your goal is to provide a single, short, and quirky writing prompt to spark imagination.
+
+Here are some examples of the kind of prompts to provide:
+- A toaster falls in love with a microwave
+- A letter from your future self
+- Rewrite a fairytale in one paragraph with a twist
+- Describe a storm from the point of view of a mailbox
+- Invent a character with a useless superpower
+- Describe a room without naming any objects
+- Write a one-paragraph origin story of a villain
+- Your socks come to life and revolt
+- Write a bedtime story for a robot
+- A short dialogue between two clouds
+
+Now, give me one new, original prompt that fits this style. The prompt should be a single, short sentence or phrase. Do not add any extra text, preamble, or quotation marks. Just the prompt itself.`;
+                    break;
+                case 'invent':
+                    userPrompt = `You are an eccentric inventor's assistant. Your job is to provide a single, bizarre, and thought-provoking invention prompt.
+
+Here are examples of the style I want:
+- Invent a conspiracy theory involving cheese
+- Design a vending machine that gives emotional advice
+- Come up with a holiday that lasts 7 minutes
+- Make a useless phone app concept
+- Describe a creature that lives in keyboards
+- Imagine a futuristic alarm clock with feelings
+- Create a new item for IKEA that no one would buy
+- Design a machine that makes you more awkward
+- Invent a sport played in zero gravity
+- What would pigeons protest about?
+
+Now, give me one new, original prompt in the same style. It should be a single, short sentence or phrase. Do not add any extra text, preamble, or quotation marks. Just the prompt itself.`;
+                    break;
+                case 'draw':
+                    userPrompt = `You are an art school ghost who whispers strange ideas. Your goal is to provide a single, fun, and unconventional drawing prompt.
+
+Here are examples of the prompts you give:
+- Draw an animal mixed with an object
+- Make a comic panel of your current emotion
+- Sketch your dream room using only geometric shapes
+- Draw with your non-dominant hand
+- Create a chaotic map of an imaginary world
+- Design a weird invention with three arms
+- Draw a creature made of kitchen tools
+- Fill a page with angry scribbles
+- Create a fake product packaging
+- Doodle a memory from today in abstract lines
+
+Now, whisper one new, original drawing prompt to me. It must be a single, short sentence or phrase. Do not add any extra text, preamble, or quotation marks. Just the prompt itself.`;
+                    break;
+            }
+
+            elements.promptDisplay.innerHTML = '<div class="spinner"></div>';
+
+            try {
+                const aiResponse = await callGeminiAPI(userPrompt);
+                appState.currentPrompt = aiResponse;
+                elements.promptDisplay.textContent = aiResponse;
+            } catch (error) {
+                console.error('Error getting AI prompt:', error);
+                const errorMessage = "Could not generate a prompt. Please check your API key in the script or network connection.";
+                elements.promptDisplay.textContent = errorMessage;
+                showToast(errorMessage, 'error');
+            }
+        }
+
+        async function callGeminiAPI(prompt) {
+            const API_KEY = appState.settings.apiKey;
+            const MODEL = appState.settings.model;
+            const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
+            
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                generationConfig: {
+                    temperature: parseFloat(appState.settings.temperature),
+                    maxOutputTokens: 100,
+                }
+            };
+            
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({ error: { message: 'Unknown API error' } }));
+                throw new Error(`API request failed: ${errorData.error?.message || response.statusText}`);
+            }
+
+            const data = await response.json();
+
+            if (data.candidates && data.candidates[0].content.parts[0]) {
+                // Clean up response to remove potential quotes or asterisks
+                let text = data.candidates[0].content.parts[0].text.trim();
+                return text.replace(/^["'*]+|["'*]+$/g, '');
+            } else {
+                 throw new Error('No valid response content from API.');
+            }
+        }
+
+
+        // --- TIMER LOGIC ---
+
+        function startTimer(minutes) {
+            if (timerInterval) {
+                stopTimer();
+            }
+            timerSecondsRemaining = minutes * 60;
+            updateTimerDisplay();
+
+            timerInterval = setInterval(() => {
+                timerSecondsRemaining--;
+                updateTimerDisplay();
+
+                if (timerSecondsRemaining <= 0) {
+                    stopTimer();
+                    alert("Time's up!");
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            timerSecondsRemaining = 0;
+            updateTimerDisplay();
+             if (activeTimerButton) {
+                activeTimerButton.classList.remove('active');
+                activeTimerButton = null;
+            }
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timerSecondsRemaining / 60);
+            const seconds = timerSecondsRemaining % 60;
+            elements.timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        
+        // --- DATA & STATE PERSISTENCE ---
+
+        function saveState() {
+            try {
+                localStorage.setItem('creativitySparkState', JSON.stringify(appState));
+            } catch (error) {
+                console.error("Error saving state to localStorage:", error);
+            }
+        }
+
+        function loadState() {
+            try {
+                const savedState = localStorage.getItem('creativitySparkState');
+                if (savedState) {
+                    const parsedState = JSON.parse(savedState);
+                    // Merge saved state into appState, keeping defaults if properties are missing
+                    Object.assign(appState, parsedState);
+                    // Ensure settings object and its properties exist
+                    appState.settings = { ...{ apiKey: "AIzaSyDuA44T84Jbdvj0xSJJfPS516N_lt4Shh0", model: "gemini-pro", temperature: 0.7 }, ...parsedState.settings };
+                }
+            } catch (error) {
+                console.error("Error loading state from localStorage:", error);
+            }
+        }
+
+        function handleSaveNotes() {
+            appState.currentNotes = elements.notesArea.value;
+            if (!appState.currentPrompt || !appState.currentNotes) {
+                showToast('Please generate a prompt and write some notes before saving.', 'error');
+                return;
+            }
+            const newSession = {
+                type: appState.activityType,
+                prompt: appState.currentPrompt,
+                notes: appState.currentNotes,
+                date: new Date().toISOString()
+            };
+            appState.sessions.push(newSession);
+            saveState();
+            showToast('Notes saved successfully!', 'success');
+        }
+
+        function exportData() {
+            const dataToExport = {
+                settings: appState.settings,
+                sessions: appState.sessions,
+                exportDate: new Date().toISOString()
+            };
+            const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `creativity-spark-backup-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            a.remove();
+            showToast('Data backup successful!', 'success');
+        }
+        
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.settings && data.sessions) {
+                        appState.settings = data.settings;
+                        appState.sessions = data.sessions;
+                        saveState();
+                        render();
+                        showToast('Data restored successfully!', 'success');
+                        closeModal();
+                    } else {
+                        throw new Error("Invalid backup file format.");
+                    }
+                } catch (error) {
+                    console.error('Error importing data:', error);
+                    showToast('Failed to restore data. Check file format.', 'error');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = ''; // Reset input for next import
+        }
+
+
+        // --- UI & MODAL ---
+        
+        function openModal() {
+            elements.settingsModal.classList.add('visible');
+        }
+
+        function closeModal() {
+            elements.settingsModal.classList.remove('visible');
+        }
+
+        function showToast(message, type = 'info', duration = 3000) {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const iconClass = type === 'success' ? 'fa-check-circle' : 'fa-times-circle';
+
+            toast.innerHTML = `
+                <div class="toast-icon"><i class="fas ${iconClass}"></i></div>
+                <div>${message}</div>
+            `;
+            elements.toastContainer.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.add('show'));
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, duration);
+        }
+
+        // --- EVENT LISTENERS ---
+
+        function setupEventListeners() {
+            elements.selectionCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    switchView('activity', card.dataset.type);
+                });
+            });
+
+            elements.backBtn.addEventListener('click', () => {
+                switchView('selection');
+            });
+
+            elements.saveNotesBtn.addEventListener('click', handleSaveNotes);
+
+            elements.timerBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (activeTimerButton) {
+                        activeTimerButton.classList.remove('active');
+                    }
+                    btn.classList.add('active');
+                    activeTimerButton = btn;
+                    startTimer(parseInt(btn.dataset.time));
+                });
+            });
+
+            // Settings Modal
+            elements.settingsBtn.addEventListener('click', openModal);
+            elements.closeModalBtn.addEventListener('click', closeModal);
+            elements.settingsModal.addEventListener('click', (e) => {
+                if (e.target === elements.settingsModal) closeModal();
+            });
+
+            elements.creativitySlider.addEventListener('input', (e) => {
+                appState.settings.temperature = parseFloat(e.target.value);
+            });
+            elements.creativitySlider.addEventListener('change', saveState); // Save when user releases slider
+
+            // Data Management
+            elements.backupDataBtn.addEventListener('click', exportData);
+            elements.restoreDataBtn.addEventListener('click', () => elements.restoreFileInput.click());
+            elements.restoreFileInput.addEventListener('change', importData);
+        }
+
+        // --- LET'S GO! ---
+        document.addEventListener('DOMContentLoaded', init);
+
+    })();
+    </script>
+</body>
+</html>
